@@ -29,6 +29,20 @@ docker run -d --name=netdata \
   netdata/netdata
 ```
 
+### 🔍Breakdown
+
+| Command                                                                                              | Explanation                                                                                    |
+| -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `docker run -d`                                                                                    | Runs the container in **detached mode** (in the background).                                   |
+| `--name=netdata`                                                                                   | Names the container `netdata` for easier reference.                                            |
+| `-p 19999:19999`                                                                                   | Maps port **19999** on your host to the container (Netdata's web dashboard runs on this port). |
+| `-v /etc/passwd:/host/etc/passwd:ro`<br>`-v /etc/group:/host/etc/group:ro`                         | Provides read-only access to host user and group information.                                  |
+| `-v /proc:/host/proc:ro`<br>`-v /sys:/host/sys:ro`<br>`-v /etc/os-release:/host/etc/os-release:ro` | Mounts system information for accurate monitoring of the host.                                 |
+| `-v /var/run/docker.sock:/var/run/docker.sock:ro`                                                  | Lets Netdata access Docker engine data to monitor running containers.                          |
+| `--cap-add SYS_PTRACE`                                                                             | Grants extra permissions needed for deeper system inspection (e.g. per-process metrics).       |
+| `--security-opt apparmor=unconfined`                                                               | Disables AppArmor profile restrictions (needed for full access on some systems).               |
+| `netdata/netdata`                                                                                  | The official Netdata Docker image.                                                             |
+
 ---
 ### 🌐 Access the Netdata Dashboard
 
